@@ -1,0 +1,18 @@
+# Cache/estado en tiempo de ejecucion que no deberia versionarse si en el
+# futuro se vuelve a copiar directo desde ~/.config con cp -r.
+cache/
+*.cache
+*.log
+*.pid
+*.sock
+*.db
+*.sqlite*
+
+# Backups que genera install.sh (viven fuera del repo, pero por si acaso)
+.config-backup-*/
+
+# Cruft de editores/OS
+.DS_Store
+*~
+*.swp
+*.swo
