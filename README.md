@@ -30,8 +30,18 @@ sudo pacman -S ttf-hack-nerd
 
 ## Instalar
 
+Antes de clonar, esta máquina necesita su propia clave SSH autorizada en
+GitHub (cada equipo tiene la suya, no se reutiliza la del equipo original):
+
 ```bash
-git clone git@github.com:<usuario>/dotfiles-hyprland.git
+ssh-keygen -t ed25519 -C "napoleon@<nombre-del-toshiba>"
+cat ~/.ssh/id_ed25519.pub   # pegar esto en github.com/settings/keys
+```
+
+Con la clave ya autorizada:
+
+```bash
+git clone git@github.com:eamadosuarez83/dotfiles-hyprland.git
 cd dotfiles-hyprland
 ./install.sh
 ```
