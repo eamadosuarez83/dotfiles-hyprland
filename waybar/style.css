@@ -1,0 +1,177 @@
+/* Tema Catppuccin Mocha, coordinado con ~/.config/hypr/colors.conf.
+ *
+ * Enfoque estilo Omarchy (github.com/omacom/omarchy, config/waybar/style.css):
+ * un solo color de fondo y uno de texto para toda la barra, SIN caja de color
+ * por módulo. La separación entre módulos es espaciado, no color. El color
+ * se reserva para estados que importan (batería crítica, red caída, mute) y
+ * se aplica al texto/ícono, no como relleno de fondo — así no compite con
+ * todo lo demás por atención.
+ */
+
+* {
+    font-family: "Hack Nerd Font", FontAwesome, sans-serif;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(30, 30, 46, 0.85); /* base */
+    color: #cdd6f4; /* text */
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* --- Workspaces: el único módulo que sí necesita distinguir estado
+   visualmente todo el tiempo (dónde estoy), así que se queda con un
+   indicador — pero como subrayado, no como caja rellena. --- */
+
+#workspaces button {
+    all: initial;
+    font-family: inherit;
+    font-size: inherit;
+    color: #cdd6f4;
+    padding: 0 6px;
+    margin: 0 1.5px;
+    min-width: 9px;
+    box-shadow: inset 0 -3px transparent;
+}
+
+#workspaces button.empty {
+    opacity: 0.5;
+}
+
+#workspaces button:hover {
+    background: rgba(137, 180, 250, 0.12);
+    box-shadow: inset 0 -3px rgba(137, 180, 250, 0.5);
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    box-shadow: inset 0 -3px #89b4fa; /* blue */
+}
+
+#workspaces button.urgent {
+    color: #f38ba8; /* red */
+    box-shadow: inset 0 -3px #f38ba8;
+}
+
+#submap {
+    color: #f9e2af; /* yellow: aviso de que hay un submapa de teclas activo */
+    margin: 0 6px;
+}
+
+/* --- Todo lo demás: mismo fondo, mismo color, separados solo por margen --- */
+
+#window,
+#clock,
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#power-profiles-daemon,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#keyboard-state,
+#language,
+#battery,
+#custom-weather,
+#tray,
+#custom-power {
+    color: #cdd6f4;
+    padding: 0 8px;
+}
+
+#window {
+    margin: 0 4px;
+}
+
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+.modules-right > widget:last-child {
+    margin-right: 4px;
+}
+
+/* --- Estados: color como señal, no como decoración --- */
+
+#idle_inhibitor.activated {
+    color: #f9e2af; /* yellow */
+}
+
+#network.disconnected {
+    color: #f38ba8; /* red */
+}
+
+#pulseaudio.muted {
+    color: #6c7086; /* overlay0, texto apagado en vez de gris de fondo */
+}
+
+#temperature.critical {
+    color: #f38ba8;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #a6e3a1; /* green */
+}
+
+/* La batería crítica es la única alerta que de verdad merece parpadear —
+   todo lo demás compite menos por tu atención si no grita todo el rato. */
+@keyframes blink-critical {
+    to {
+        color: #f38ba8;
+    }
+}
+
+#battery.critical:not(.charging) {
+    color: #f38ba8;
+    animation-name: blink-critical;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#power-profiles-daemon.performance {
+    color: #f38ba8;
+}
+
+#power-profiles-daemon.power-saver {
+    color: #a6e3a1;
+}
+
+#keyboard-state > label {
+    padding: 0 4px;
+}
+
+#keyboard-state label.locked {
+    color: #f9e2af;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    color: #f38ba8;
+}
+
+/* --- Indicador de notificaciones pendientes (dunst), añadido en la ronda
+   de mejoras del 2026-09-14. Ver custom/notification en config.jsonc. --- */
+#custom-notification {
+    padding: 0 8px;
+    color: #cdd6f4;
+}
+
+#custom-notification.has-notifications {
+    color: #89b4fa; /* blue: hay notificaciones pendientes en el historial */
+}
+
+#custom-notification.dnd {
+    color: #f9e2af; /* yellow: "no molestar" activo */
+}
